@@ -2,11 +2,7 @@ const { JWT } = require('google-auth-library');
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers: corsHeaders(),
-      body: '',
-    };
+    return { statusCode: 204, headers: corsHeaders(), body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -28,22 +24,32 @@ exports.handler = async (event) => {
   }
 
   let payload = {};
-  try {
-    payload = event.body ? JSON.parse(event.body) : {};
-  } catch {
-    payload = {};
+  if (event.body) {
+    try {
+      payload = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+    } catch {
+      payload = {};
+    }
   }
 
   try {
     const accessToken = await getAccessToken(credentials);
     const projectId = credentials.project_id;
 
+    const messageText = String(payload.message || 'Someone opened the promotional offers website');
+
+    // FIX: Added 'notification' block to guarantee system tray display
     const message = {
       message: {
         topic: 'sending',
-        data: {
+        notification: {
           title: 'New Website Visit',
-          body: payload.message || 'Someone opened the promotional offers website',
+          body: messageText,
+        },
+        data: {
+          // We keep the data block so your app knows what to do when the user taps it
+          title: 'New Website Visit',
+          body: messageText,
           type: 'page_open',
           session_id: String(payload.session_id || ''),
           selected_app: String(payload.selected_app || 'flipkart'),
@@ -88,7 +94,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: corsHeaders(),
-      body: JSON.stringify({ error: 'Notification request failed' }),
+      body: JSON.stringify({ error: 'Notification request failed', details: err.message }),
     };
   }
 };
