@@ -1,0 +1,14 @@
+{
+  "name": "dealvault",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-config.js",
+    "dev": "npx netlify dev",
+    "test:fcm": "node scripts/test-fcm.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "google-auth-library": "^9.15.1"
+  }
+}

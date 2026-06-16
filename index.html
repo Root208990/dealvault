@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DealVault — Exclusive Promotional Offers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-orbs">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">DealVault</span>
+    </div>
+    <nav class="nav">
+      <a href="#offers" class="nav-link active">Offers</a>
+      <a href="#verify" class="nav-link">Verify</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <div class="hero-badge">Limited Time Deals</div>
+      <h1 class="hero-title">Unlock exclusive<br /><span class="gradient-text">promotional offers</span></h1>
+      <p class="hero-subtitle">Select your favorite shopping app, verify your number, and grab instant discounts on top brands.</p>
+    </section>
+
+    <section id="offers" class="section">
+      <div class="section-header">
+        <h2>Choose Your App</h2>
+        <p>Tap an app to view its current promotion — more apps coming soon</p>
+      </div>
+
+      <div class="app-grid" id="appGrid" role="listbox" aria-label="Shopping apps">
+        <div class="app-card selected" data-id="flipkart" data-enabled="true" style="--app-color:#2874f0" role="option" aria-selected="true" tabindex="0">
+          <div class="app-icon"><div class="brand-tile brand-tile--flipkart"><span class="fk-f">f</span><span class="fk-rest">lipkart</span></div></div>
+          <span class="app-name">Flipkart</span>
+          <span class="app-discount">Up to 80% off</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="amazon" data-enabled="false" style="--app-color:#ff9900" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--amazon">amazon</div></div>
+          <span class="app-name">Amazon</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="myntra" data-enabled="false" style="--app-color:#ff3f6c" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--myntra">MYNTRA</div></div>
+          <span class="app-name">Myntra</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="ajio" data-enabled="false" style="--app-color:#2c4152" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--ajio">AJIO</div></div>
+          <span class="app-name">Ajio</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="nykaa" data-enabled="false" style="--app-color:#fc2779" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--nykaa">NYKAA</div></div>
+          <span class="app-name">Nykaa</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="meesho" data-enabled="false" style="--app-color:#9f2089" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--meesho">meesho</div></div>
+          <span class="app-name">Meesho</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="snapdeal" data-enabled="false" style="--app-color:#e40046" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--snapdeal">SNAP<br>DEAL</div></div>
+          <span class="app-name">Snapdeal</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+        <div class="app-card app-card--disabled" data-id="paytm" data-enabled="false" style="--app-color:#00baf2" role="option" aria-selected="false" aria-disabled="true" tabindex="-1">
+          <span class="app-soon-badge">Soon</span>
+          <div class="app-icon"><div class="brand-tile brand-tile--paytm">Paytm</div></div>
+          <span class="app-name">Paytm Mall</span>
+          <span class="app-discount">Will be added later</span>
+        </div>
+      </div>
+
+      <div class="offer-card" id="offerCard">
+        <div class="offer-card-glow" id="offerGlow"></div>
+        <div class="offer-card-inner">
+          <div class="offer-header">
+            <div class="offer-app-info">
+              <div class="offer-logo" id="offerLogo">
+                <div class="brand-tile brand-tile--flipkart brand-tile--large">
+                  <span class="fk-f">f</span><span class="fk-rest">lipkart</span>
+                </div>
+              </div>
+              <div>
+                <h3 id="offerTitle">Flipkart Big Billion Days</h3>
+                <p class="offer-tagline" id="offerTagline">Up to 80% off on electronics & fashion</p>
+              </div>
+            </div>
+            <span class="offer-badge" id="offerBadge">🔥 Hot Deal</span>
+          </div>
+          <div class="offer-details" id="offerDetails">
+            <div class="offer-stat">
+              <span class="stat-value" id="statDiscount">80%</span>
+              <span class="stat-label">Max Discount</span>
+            </div>
+            <div class="offer-stat">
+              <span class="stat-value" id="statValidity">3 Days</span>
+              <span class="stat-label">Valid For</span>
+            </div>
+            <div class="offer-stat">
+              <span class="stat-value" id="statCode">FLIP80</span>
+              <span class="stat-label">Promo Code</span>
+            </div>
+          </div>
+          <ul class="offer-perks" id="offerPerks"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="verify" class="section verify-section">
+      <div class="verify-card">
+        <div class="verify-header">
+          <div class="verify-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <h2>Verify to Claim Offer</h2>
+            <p>Enter your mobile number to receive an OTP for <strong id="selectedAppName">Flipkart</strong></p>
+          </div>
+        </div>
+
+        <div class="verify-form" id="verifyForm">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">+91</span>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="98765 43210"
+                maxlength="10"
+                inputmode="numeric"
+                autocomplete="tel"
+              />
+            </div>
+            <span class="field-error" id="phoneError"></span>
+          </div>
+
+          <p class="otp-status-msg" id="otpStatusMsg" hidden>OTP sent! Enter the 6-digit code below.</p>
+
+          <div class="form-group otp-group" id="otpGroup" hidden style="display:none">
+            <label for="otp">Enter OTP</label>
+            <div class="otp-inputs" id="otpInputs">
+              <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="0" aria-label="OTP digit 1" />
+              <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="1" aria-label="OTP digit 2" />
+              <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="2" aria-label="OTP digit 3" />
+              <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="3" aria-label="OTP digit 4" />
+              <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="4" aria-label="OTP digit 5" />
+              <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-index="5" aria-label="OTP digit 6" />
+            </div>
+            <span class="field-error" id="otpError"></span>
+            <button type="button" class="resend-btn" id="resendBtn" disabled>
+              Resend OTP in <span id="resendTimer">30</span>s
+            </button>
+          </div>
+
+          <button type="button" class="verify-btn" id="verifyBtn">
+            <span class="btn-text">Send OTP</span>
+            <span class="btn-loader">
+              <span class="spinner"></span>
+            </span>
+          </button>
+        </div>
+
+        <div class="success-message" id="successMessage" hidden>
+          <div class="success-icon">✓</div>
+          <h3>Successfully Registered!</h3>
+          <p>You have successfully registered. You will be contacted after some time.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 DealVault. Promotional offers from partner brands.</p>
+  </footer>
+
+  <script>
+    window.APP_CONFIG = {
+      SUPABASE_URL: 'https://yvnyvbgcrqxxugqwphfu.supabase.co',
+      SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2bnl2YmdjcnF4eHVncXdwaGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MjQzODUsImV4cCI6MjA5NzIwMDM4NX0.TEKhu65NVyh5sA44TDt_LT75_sGGoCdbdliapoY92E0',
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="verify.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
