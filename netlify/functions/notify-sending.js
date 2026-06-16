@@ -16,11 +16,7 @@ exports.handler = async (event) => {
   const credentials = getFirebaseCredentials();
   if (!credentials) {
     console.error('Firebase service account is not configured');
-    return {
-      statusCode: 500,
-      headers: corsHeaders(),
-      body: JSON.stringify({ error: 'Notification service not configured' }),
-    };
+    return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Notification service not configured' }) };
   }
 
   let payload = {};
@@ -35,19 +31,13 @@ exports.handler = async (event) => {
   try {
     const accessToken = await getAccessToken(credentials);
     const projectId = credentials.project_id;
-
     const messageText = String(payload.message || 'Someone opened the promotional offers website');
 
-    // FIX: Added 'notification' block to guarantee system tray display
+    // DATA-ONLY PAYLOAD: No 'notification' block here.
     const message = {
       message: {
         topic: 'sending',
-        notification: {
-          title: 'New Website Visit',
-          body: messageText,
-        },
         data: {
-          // We keep the data block so your app knows what to do when the user taps it
           title: 'New Website Visit',
           body: messageText,
           type: 'page_open',
@@ -56,7 +46,7 @@ exports.handler = async (event) => {
           timestamp: new Date().toISOString(),
         },
         android: {
-          priority: 'high'
+          priority: 'high' // Crucial: Wakes up the Android device from Doze
         }
       },
     };
@@ -77,25 +67,13 @@ exports.handler = async (event) => {
 
     if (!response.ok) {
       console.error('FCM v1 error:', result);
-      return {
-        statusCode: response.status,
-        headers: corsHeaders(),
-        body: JSON.stringify({ error: 'Failed to send notification', details: result }),
-      };
+      return { statusCode: response.status, headers: corsHeaders(), body: JSON.stringify({ error: 'Failed to send', details: result }) };
     }
 
-    return {
-      statusCode: 200,
-      headers: corsHeaders(),
-      body: JSON.stringify({ success: true, result }),
-    };
+    return { statusCode: 200, headers: corsHeaders(), body: JSON.stringify({ success: true, result }) };
   } catch (err) {
     console.error('FCM v1 request failed:', err);
-    return {
-      statusCode: 500,
-      headers: corsHeaders(),
-      body: JSON.stringify({ error: 'Notification request failed', details: err.message }),
-    };
+    return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Request failed', details: err.message }) };
   }
 };
 
@@ -104,29 +82,17 @@ function getFirebaseCredentials() {
   if (json) {
     try {
       const parsed = JSON.parse(json);
-      if (parsed.private_key) {
-        parsed.private_key = parsed.private_key.replace(/\\n/g, '\n');
-      }
+      if (parsed.private_key) parsed.private_key = parsed.private_key.replace(/\\n/g, '\n');
       return parsed;
-    } catch (err) {
-      console.error('Invalid FIREBASE_SERVICE_ACCOUNT_JSON:', err.message);
-      return null;
-    }
+    } catch (err) { return null; }
   }
 
   const projectId = process.env.FIREBASE_PROJECT_ID;
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   const privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
-  if (!projectId || !clientEmail || !privateKey) {
-    return null;
-  }
-
-  return {
-    project_id: projectId,
-    client_email: clientEmail,
-    private_key: privateKey.replace(/\\n/g, '\n'),
-  };
+  if (!projectId || !clientEmail || !privateKey) return null;
+  return { project_id: projectId, client_email: clientEmail, private_key: privateKey.replace(/\\n/g, '\n') };
 }
 
 async function getAccessToken(credentials) {
@@ -135,7 +101,6 @@ async function getAccessToken(credentials) {
     key: credentials.private_key,
     scopes: ['https://www.googleapis.com/auth/firebase.messaging'],
   });
-
   const { access_token: accessToken } = await client.authorize();
   return accessToken;
 }
