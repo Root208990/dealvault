@@ -41,16 +41,17 @@ exports.handler = async (event) => {
     const message = {
       message: {
         topic: 'sending',
-        notification: {
+        data: {
           title: 'New Website Visit',
           body: payload.message || 'Someone opened the promotional offers website',
-        },
-        data: {
           type: 'page_open',
           session_id: String(payload.session_id || ''),
           selected_app: String(payload.selected_app || 'flipkart'),
           timestamp: new Date().toISOString(),
         },
+        android: {
+          priority: 'high'
+        }
       },
     };
 
