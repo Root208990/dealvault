@@ -241,17 +241,28 @@ function initSupabase() {
 
 async function notifyPageOpen() {
   try {
-    await fetch('/.netlify/functions/notify-sending', {
+    const endpoint = '/.netlify/functions/notify-sending';
+    console.log('[DealVault] Calling notify:', endpoint, 'event=page_open');
+
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        event_type: 'page_open',
         session_id: sessionId,
         selected_app: selectedApp.id,
         message: 'Someone opened the promotional offers website',
       }),
     });
+
+    const data = await res.json().catch(() => ({}));
+    console.log('[DealVault] notify page_open status:', res.status, data);
+
+    if (!res.ok || !data.ok) {
+      console.error('[DealVault] notify FAILED:', data);
+    }
   } catch (err) {
-    console.warn('Could not send page-open notification:', err);
+    console.error('[DealVault] notify page_open error:', err);
   }
 }
 
